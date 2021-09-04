@@ -58,7 +58,7 @@ class Talent {
         return new Array(60)
             .fill(1).map((v, i)=>{
                 if(!i && include) return include;
-                const gradeRandom = Math.random();
+                const gradeRandom = Math.random()/30;
                 let grade;
                 if(gradeRandom>=0.111) grade = 0;
                 else if(gradeRandom>=0.011) grade = 1;
