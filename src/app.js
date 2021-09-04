@@ -10,7 +10,7 @@ class App{
     #life;
     #pages;
     #talentSelected = new Set();
-    #totalMax=40;
+    #totalMax=80;
     #isEnd = false;
     #selectedExtendTalent = null;
     #hintTimeout;
@@ -78,7 +78,7 @@ class App{
         const talentPage = $(`
         <div id="main">
             <div class="head" style="font-size: 1.6rem">天赋抽卡</div>
-            <button id="random" class="mainbtn" style="top: 50%;">30连抽！</button>
+            <button id="random" class="mainbtn" style="top: 50%;">100连抽！</button>
             <ul id="talents" class="selectlist"></ul>
             <button id="next" class="mainbtn" style="top:auto; bottom:0.1em">请选择10个</button>
         </div>
@@ -102,8 +102,8 @@ class App{
                                 li.removeClass('selected')
                                 this.#talentSelected.delete(talent);
                             } else {
-                                if(this.#talentSelected.size==10) {
-                                    this.hint('只能选10个天赋');
+                                if(this.#talentSelected.size==30) {
+                                    this.hint('只能选30个天赋');
                                     return;
                                 }
 
@@ -130,11 +130,11 @@ class App{
         talentPage
             .find('#next')
             .click(()=>{
-                if(this.#talentSelected.size!=10) {
-                    this.hint('请选择10个天赋');
+                if(this.#talentSelected.size!=30) {
+                    this.hint('请选择30个天赋');
                     return;
                 }
-                this.#totalMax = 40 + this.#life.getTalentAllocationAddition(Array.from(this.#talentSelected).map(({id})=>id));
+                this.#totalMax = 80 + this.#life.getTalentAllocationAddition(Array.from(this.#talentSelected).map(({id})=>id));
                 this.switch('property');
             })
 
@@ -146,7 +146,7 @@ class App{
                 <div id="total" style="font-size:1rem; font-weight:normal;">可用属性点：0</div>
             </div>
             <ul id="propertyAllocation" class="propinitial"></ul>
-            <button id="random" class="mainbtn" style="top:auto; bottom:7rem">随机分配</button>
+            <button id="random" class="mainbtn" style="top:auto; bottom:7rem">直接加满</button>
             <button id="start" class="mainbtn" style="top:auto; bottom:0.1rem">开始新人生</button>
         </div>
         `);
@@ -205,10 +205,10 @@ class App{
             return {group, get, set};
         }
 
-        groups.CHR = getBtnGroups("颜值", 0, 10); // 颜值 charm CHR
-        groups.INT = getBtnGroups("智力", 0, 10); // 智力 intelligence INT
-        groups.STR = getBtnGroups("体质", 0, 10); // 体质 strength STR
-        groups.MNY = getBtnGroups("家境", 0, 10); // 家境 money MNY
+        groups.CHR = getBtnGroups("颜值", 0, 20); // 颜值 charm CHR
+        groups.INT = getBtnGroups("智力", 0, 20); // 智力 intelligence INT
+        groups.STR = getBtnGroups("体质", 0, 20); // 体质 strength STR
+        groups.MNY = getBtnGroups("家境", 0, 20); // 家境 money MNY
 
         const ul = propertyPage.find('#propertyAllocation');
 
@@ -220,21 +220,10 @@ class App{
             .find('#random')
             .click(()=>{
                 let t = this.#totalMax;
-                const arr = [10, 10, 10, 10];
-                while(t>0) {
-                    const sub = Math.round(Math.random() * (Math.min(t, 10) - 1)) + 1;
-                    while(true) {
-                        const select = Math.floor(Math.random() * 4) % 4;
-                        if(arr[select] - sub <0) continue;
-                        arr[select] -= sub;
-                        t -= sub;
-                        break;
-                    }
-                }
-                groups.CHR.set(10 - arr[0]);
-                groups.INT.set(10 - arr[1]);
-                groups.STR.set(10 - arr[2]);
-                groups.MNY.set(10 - arr[3]);
+                groups.CHR.set(20);
+                groups.INT.set(20);
+                groups.STR.set(20);
+                groups.MNY.set(20);
             });
 
         propertyPage
@@ -327,7 +316,7 @@ class App{
                 this.#life.talentExtend(this.#selectedExtendTalent);
                 this.#selectedExtendTalent = null;
                 this.#talentSelected.clear();
-                this.#totalMax = 20;
+                this.#totalMax = 80;
                 this.#isEnd = false;
                 this.switch('index');
             });
@@ -365,7 +354,7 @@ class App{
                 clear: ()=>{
                     talentPage.find('ul.selectlist').empty();
                     talentPage.find('#random').show();
-                    this.#totalMax = 40;
+                    this.#totalMax = 80;
                 },
             },
             property: {
