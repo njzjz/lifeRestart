@@ -447,7 +447,7 @@ class App{
         const themeLink = $(document).find('#themeLink');
 
         if(theme == 'light') {
-            themeLink.attr('href', 'style.css');
+            themeLink.attr('href', 'light.css');
         } else {
             themeLink.attr('href', 'dark.css');
         }
