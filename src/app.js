@@ -290,7 +290,7 @@ class App{
                 this.times ++;
                 this.#life.talentExtend(this.#selectedExtendTalent);
                 this.#selectedExtendTalent = null;
-                this.#talentSelected.clear();
+                //this.#talentSelected.clear();
                 this.#totalMax = 80;
                 this.#isEnd = false;
                 this.switch('index');
