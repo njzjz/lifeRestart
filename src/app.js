@@ -164,6 +164,7 @@ class App{
 
             const get = ()=>Number(inputBox.val());
             const set = v=>{
+                inputBox.val(v);
                 freshTotal();
             }
             btnAdd.click(()=>{
