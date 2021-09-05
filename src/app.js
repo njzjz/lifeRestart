@@ -92,8 +92,9 @@ class App{
             .find('#random')
             .click(()=>{ 
                 talentPage.find('#random').hide();
-                if(!visited){
                 const ul = talentPage.find('#talents');
+                ul.show()
+                if(!visited){
                 this.#life.talentRandom()
                     .forEach(talent=>{
                         const li = createTalent(talent);
