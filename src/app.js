@@ -87,11 +87,10 @@ class App{
         const createTalent = ({ grade, name, description }) => {
             return $(`<li class="grade${grade}b">${name}（${description}）</li>`)
         };
-
+        var visited = false;
         talentPage
             .find('#random')
-            .click(()=>{
-                var visited = false;
+            .click(()=>{ 
                 talentPage.find('#random').hide();
                 if(!visited){
                 const ul = talentPage.find('#talents');
