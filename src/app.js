@@ -91,7 +91,9 @@ class App{
         talentPage
             .find('#random')
             .click(()=>{
+                var visited = false;
                 talentPage.find('#random').hide();
+                if(!visited){
                 const ul = talentPage.find('#talents');
                 this.#life.talentRandom()
                     .forEach(talent=>{
@@ -121,6 +123,8 @@ class App{
                             }
                         });
                     });
+                }
+                visited = true;
             });
 
         talentPage
@@ -355,7 +359,7 @@ class App{
                     const judge = summaryPage.find('#judge');
                     const talents = summaryPage.find('#talents');
                     judge.empty();
-                    talents.empty();
+                    //talents.empty();
                     this.#talentSelected.forEach(talent=>{
                         const li = createTalent(talent);
                         talents.append(li);
