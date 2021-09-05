@@ -330,7 +330,7 @@ class App{
             talent: {
                 page: talentPage,
                 clear: ()=>{
-                    talentPage.find('ul.selectlist').empty();
+                    talentPage.find('ul.selectlist').hide();
                     talentPage.find('#random').show();
                     this.#totalMax = 80;
                 },
