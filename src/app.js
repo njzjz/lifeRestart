@@ -280,8 +280,8 @@ class App{
                 <li><span>享年：</span>3岁 早夭</li>
                 <li><span>快乐：</span>3级 不太幸福的人生</li>
             </ul>
-            <div class="head" style="top:auto; bottom:35%">天赋，你可以选一个，下辈子还能抽到</div>
-            <ul id="talents" class="selectlist" style="top:calc(65% + 0.5rem); bottom:8rem">
+            <div class="head" style="top:auto; bottom:35%; display:none">天赋，你可以选一个，下辈子还能抽到</div>
+            <ul id="talents" class="selectlist" style="top:calc(65% + 0.5rem); bottom:8rem; display:none">
                 <li class="grade2b">黑幕（面试一定成功）</li>
             </ul>
             <button id="again" class="mainbtn" style="top:auto; bottom:0.1em"><span class="iconfont">&#xe6a7;</span>再次重开</button>
