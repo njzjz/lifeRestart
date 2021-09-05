@@ -176,7 +176,6 @@ class App{
                 if(t > this.#totalMax) {
                     val -= t - this.#totalMax;
                 }
-                val = limit(val);
                 if(val != inputBox.val()) {
                     set(val);
                 }
