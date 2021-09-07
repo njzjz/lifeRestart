@@ -85,7 +85,7 @@ body {
 }
 
 .mainbtn:hover {
-	background: rgb(255, 120, 120);
+	background: #ff7878;
 	color: #fff;
 	transition: all .4s ease 0s;
 }
@@ -97,18 +97,88 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+#sponsor,
+#specialthanks,
 #rank {
     position: fixed;
-    top: 1rem;
+    top: 4rem;
     right: 1rem;
-    padding: 0.1rem 1rem;
+    padding: 0.1rem;
+    width: 6rem;
     border: none;
     border-radius: 0.2rem;
     background-color:lightsteelblue;
     font-size: 1.4rem;
-    color: white;
+    color: #EEEEEE;
     cursor: pointer;
     z-index:2;
+    word-wrap: none;
+}
+
+#specialthanks {
+    background-color: #5865F2;
+    top: 1rem;
+}
+
+#sponsor {
+  top: auto;
+  bottom: 0;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+#spthx {
+    position: fixed;
+    display: grid;
+    top: 4rem;
+    bottom: 5rem;
+    left: 50%;
+    width: 30rem;
+    max-width: calc(100% - 2rem);
+    transform: translateX(-50%);
+}
+
+#spthx ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#spthx ul li {
+  margin: 0;
+}
+
+#spthx ul.g1 {
+  display: grid;
+  max-block-size: 9rem;
+  max-height: 9rem;
+  overflow: scroll;
+}
+
+#spthx ul.g1 li {
+  display: inline-grid;
+  background-color: orange;
+  margin-bottom: 0.5rem;
+  padding: 0.2rem 0;
+  grid-template-columns: 7rem auto;
+}
+
+#spthx ul.g1 li .name {
+  padding: 0 0.5rem;
+  font-weight: 700;
+}
+
+#spthx ul.g1 li .comment {
+  padding: 0 0.5rem;
+}
+
+#spthx ul.g2 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  overflow: scroll;
+}
+
+#spthx ul.g2 li {
+  text-align: center;
 }
 
 #themeToggleBtn {
@@ -150,6 +220,32 @@ body {
     padding: 0;
     overflow: auto;
     transform: translateX(-50%);
+    text-align: center;
+}
+
+.lifeProperty{
+  position: fixed;
+  list-style-type: none;
+  left: 50%;
+  top: 2rem;
+  width: 30rem;
+  max-width: calc(100% - 2rem);
+  padding: 0;
+  overflow: auto;
+  transform: translateX(-50%);
+  display: flex;
+  color: black;
+}
+
+.lifeProperty > li {
+  width: 100%;
+  position: relative;
+  border: 1px #ccc solid;
+  display: inline-block;
+  margin: 0.1rem 2px;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 0.2rem;
 }
 
 .selectlist > li {
@@ -164,85 +260,87 @@ body {
     cursor: pointer;
 }
 
-.grade1b,
-.grade2b,
-.grade3b {
-  padding-left: 1.5rem;
-  box-sizing: border-box;
-}
-
 .grade0b {
-	background-color: rgb(237, 237, 237);
+	background-color: #ededed;
 	border: #c5c5c5 2px solid !important;
 }
 
-.grade1,
-.grade1b::before {
-    background-color: rgb(116, 191, 255) !important;
-}
 .grade1b {
-	background-color: rgb(116, 191, 255);
+	background-color: #7ea5ec;
 	border: #c5c5c5 2px solid !important;
 }
 
-.grade2,
-.grade2b::before {
-    background-color: rgb(226, 167, 255) !important;
-}
 .grade2b {
-	background-color: rgb(226, 167, 255);
+	background-color: #e2a7ff;
 	border: #c5c5c5 2px solid !important;
 }
 
-.grade3,
-.grade3b::before {
-    background-color: #ffa07a !important;
-}
 .grade3b {
 	background-color: #ffa07a;
 	border: #c5c5c5 2px solid !important;
 }
 
-.grade0b:hover {
-	background-color: rgb(160, 160, 160);
-	transition: all .4s ease 0s;
-}
-.grade1b:hover {
-	background-color: rgb(159, 207, 248);
-	transition: all .4s ease 0s;
-}
-.grade2b:hover {
-	background-color: rgb(240, 212, 255);
-	transition: all .4s ease 0s;
-}
-.grade3b:hover {
-	background-color: #f7a989;
-	transition: all .4s ease 0s;
-}
+@media (min-width:1080px) {
+    .grade0b:hover {
+        background-color: #868686;
+        transition: all .3s ease 0s;
+    }
 
+    .grade1b:hover {
+        background-color: #5d90ff;
+        transition: all .3s ease 0s;
+    }
+
+    .grade2b:hover {
+        background-color: #bc72ec;
+        transition: all .3s ease 0s;
+    }
+
+    .grade3b:hover {
+        background-color: #e09074;
+        transition: all .3s ease 0s;
+    }
+}
 .grade0b.selected {
-    background-color: rgb(160, 160, 160);
-    color: #3b3b3b;
+    background-color: #444;
+    box-shadow: #bbb 0px 0px 10px;
+    color: #fff;
 }
 
 .grade1b.selected {
-    background-color: rgb(159, 207, 248);
-    color: #3b3b3b;
+    background-color: #407dec;
+    box-shadow: #bbb 0px 0px 10px;
+    color: #fff;
 }
 
 .grade2b.selected {
-	background-color: rgb(240, 212, 255);
-    color: #3b3b3b;
+	background-color: #b362e7;
+    box-shadow: #bbb 0px 0px 10px;
+    color: #fff;
 }
 
 .grade3b.selected {
-    background-color: #f7a989;
-    color: #3b3b3b;
+    background-color: #ff7f4d;
+    box-shadow: #bbb 0px 0px 10px;
+    color: #fff;
+}
+
+.judge > li.grade1 span,
+.judge > li.grade1{
+    background-color: #7ea5ec;
+}
+.judge > li.grade2 span,
+.judge > li.grade2{
+    background-color: #e2a7ff;
+}
+.judge > li.grade3 span,
+.judge > li.grade3{
+    background-color: #ffa07a;
 }
 
 .propinitial {
     top: 5rem;
-    bottom: 14rem;
+    bottom: 17rem;
 }
 
 .propinitial > li {
@@ -279,9 +377,9 @@ body {
 }
 
 .lifeTrajectory {
-    border: 1px lightblue solid;
+    border: 1px #a7a7a7 solid;
     border-radius: 10px;
-    background-color: aliceblue;
+    background-color: #ffffff;
 }
 
 .judge > li,
@@ -291,8 +389,8 @@ body {
     margin: 0.5rem 0;
     padding: 0.5rem 1rem 0.5rem 6rem;
     font-size: 1.4rem;
-    background-color: white;
-    box-shadow: lightblue 0 0 0.4rem;
+    background-color: #fff;
+    box-shadow: #a7a7a7 0 0 0.4rem;
     user-select: none;
 }
 
@@ -309,13 +407,14 @@ body {
     width: calc(100% - 9rem);
     margin: 0.5rem;
     padding: 0.5rem 1rem 0.5rem 7rem;
+    border-radius: 10px;
 }
 
 .judge > li > span {
-    background-color: white;
     height: calc(100% - 1rem);
     padding: 0.5rem 0;
     top: 0;
+    border-radius: 10px;
 }
 
 
@@ -533,4 +632,41 @@ i {
 
 ::-webkit-scrollbar {
 	width: 0 !important
+}
+
+.deleteFixed {
+  position: relative;
+  transform: translateX(0);
+  left: 0;
+  top: 0;
+  text-align: left;
+}
+
+.operateBtn {
+  padding: 0.5rem 1.5rem;
+  border: 1px #EEEEEE solid;
+  border-radius: 0.2rem;
+  background-color:#393E46;
+  font-size: 1.6rem;
+  white-space: nowrap;
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+  z-index:2;
+  color: #EEEEEE;
+}
+
+.operateBtn:hover {
+  background: #ff7878;
+  color: #fff;
+  transition: all .4s ease 0s;
+}
+
+.domToImage2wx {
+  position: fixed;
+  z-index: 1111;
+  width: 100%;
+}
+
+.domToImage2wx img {
+  width: 100%;
 }

@@ -88,7 +88,7 @@ body {
 }
 
 .mainbtn:hover {
-	background: rgb(255, 120, 120);
+	background: #ff7878;
 	color: #fff;
 	transition: all .4s ease 0s;
 }
@@ -100,11 +100,14 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+#sponsor,
+#specialthanks,
 #rank {
     position: fixed;
-    top: 1rem;
+    top: 4rem;
     right: 1rem;
-    padding: 0.1rem 1rem;
+    padding: 0.1rem;
+    width: 6rem;
     border: none;
     border-radius: 0.2rem;
     background-color:lightsteelblue;
@@ -112,6 +115,74 @@ body {
     color: #EEEEEE;
     cursor: pointer;
     z-index:2;
+    word-wrap: none;
+}
+
+#specialthanks {
+    background-color: #5865F2;
+    top: 1rem;
+}
+
+#sponsor {
+  top: auto;
+  bottom: 0;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+#spthx {
+    position: fixed;
+    display: grid;
+    top: 4rem;
+    bottom: 5rem;
+    left: 50%;
+    width: 30rem;
+    max-width: calc(100% - 2rem);
+    transform: translateX(-50%);
+}
+
+#spthx ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#spthx ul li {
+  margin: 0;
+}
+
+#spthx ul.g1 {
+  display: grid;
+  max-block-size: 9rem;
+  max-height: 9rem;
+  overflow: scroll;
+}
+
+#spthx ul.g1 li {
+  display: inline-grid;
+  background-color: orange;
+  margin-bottom: 0.5rem;
+  padding: 0.2rem 0;
+  grid-template-columns: 7rem auto;
+}
+
+#spthx ul.g1 li .name {
+  padding: 0 0.5rem;
+  font-weight: 700;
+}
+
+#spthx ul.g1 li .comment {
+  padding: 0 0.5rem;
+}
+
+#spthx ul.g2 {
+  color: white;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  overflow: scroll;
+}
+
+#spthx ul.g2 li {
+  text-align: center;
 }
 
 #themeToggleBtn {
@@ -154,6 +225,32 @@ body {
     padding: 0;
     overflow: auto;
     transform: translateX(-50%);
+    text-align: center;
+}
+
+.lifeProperty{
+  position: fixed;
+  list-style-type: none;
+  left: 50%;
+  top: 2rem;
+  width: 30rem;
+  max-width: calc(100% - 2rem);
+  padding: 0;
+  overflow: auto;
+  transform: translateX(-50%);
+  display: flex;
+  color: white;
+}
+
+.lifeProperty > li {
+  width: 100%;
+  position: relative;
+  border: 1px #ccc solid;
+  display: inline-block;
+  margin: 0.1rem 2px;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 0.2rem;
 }
 
 .selectlist > li {
@@ -167,98 +264,88 @@ body {
     border-radius: 0.2rem;
     cursor: pointer;
     color: #EEEEEE;
-}
-
-.grade1b,
-.grade2b,
-.grade3b {
-  padding-left: 1.5rem;
-  box-sizing: border-box;
+    user-select: none;
 }
 
 .grade0b {
-	background-color: rgb(70, 70, 70);
+	background-color: #464646;
 	border: #f8f8f8 2px solid !important;
-}
-
-.grade1,
-.grade1b::before {
-    background-color: rgb(116, 191, 255) !important;
 }
 .grade1b {
-	background-color: rgb(116, 191, 255);
+	background-color: #6495ed;
 	border: #f8f8f8 2px solid !important;
-}
-
-.grade2,
-.grade2b::before {
-    background-color: rgb(226, 167, 255) !important;
 }
 .grade2b {
-	background-color: rgb(226, 167, 255);
+	background-color: #e2a7ff;
 	border: #f8f8f8 2px solid !important;
-}
-
-.grade3,
-.grade3b::before {
-    background-color: #ffa07a !important;
 }
 .grade3b {
 	background-color: #ffa07a;
 	border: #f8f8f8 2px solid !important;
 }
 
-.grade1b,
-.grade2b,
-.grade3b {
-  padding-left: 1.5rem;
-  box-sizing: border-box;
+@media (min-width:1080px) {
+    .grade0b:hover {
+    	background-color: #c0c0c0;
+        color: #3b3b3b;
+    	transition: all .3s ease 0s;
+    }
+    .grade1b:hover {
+    	background-color: #87cefa;
+        color: #3b3b3b;
+    	transition: all .3s ease 0s;
+    }
+    .grade2b:hover {
+    	background-color: #e7beff;
+        color: #3b3b3b;
+    	transition: all .3s ease 0s;
+    }
+    .grade3b:hover {
+    	background-color: #f7a989;
+        color: #3b3b3b;
+    	transition: all .3s ease 0s;
+    }
 }
-
-.grade0b:hover {
-	background-color: rgb(202, 202, 202);
-    color: #3b3b3b;
-	transition: all .4s ease 0s;
-}
-.grade1b:hover {
-	background-color: rgb(159, 207, 248);
-    color: #3b3b3b;
-	transition: all .4s ease 0s;
-}
-.grade2b:hover {
-	background-color: rgb(240, 212, 255);
-    color: #3b3b3b;
-	transition: all .4s ease 0s;
-}
-.grade3b:hover {
-	background-color: #f7a989;
-    color: #3b3b3b;
-	transition: all .4s ease 0s;
-}
-
 .grade0b.selected {
-    background-color: rgb(202, 202, 202) !important;
+    background-color: #c0c0c0 !important;
+    box-shadow: #ccc 0px 0px 10px;
     color: #3b3b3b;
 }
 
 .grade1b.selected {
-    background-color: rgb(198, 229, 255) !important;
+    background-color: #87cefa !important;
+    box-shadow: #ccc 0px 0px 10px;
     color: #3b3b3b;
 }
 
 .grade2b.selected {
-	background-color: rgb(240, 212, 255) !important;
+	background-color: #e7beff !important;
+    box-shadow: #ccc 0px 0px 10px;
     color: #3b3b3b;
 }
 
 .grade3b.selected {
     background-color: #f1bfac !important;
+    box-shadow: #ccc 0px 0px 10px;
     color: #3b3b3b;
+}
+
+.judge > li.grade1 span,
+.judge > li.grade1{
+    background-color: #87cefa;
+}
+.judge > li.grade2 span,
+.judge > li.grade2{
+    background-color: #e7beff;
+}
+.judge > li.grade3 span,
+.judge > li.grade3{
+    background-color: #f7a989;
 }
 
 .propinitial {
     top: 5rem;
-    bottom: 14rem;
+    bottom: 17rem;
 }
 
 .propbtn:hover{
@@ -328,13 +415,14 @@ body {
     width: calc(100% - 9rem);
     margin: 0.5rem;
     padding: 0.5rem 1rem 0.5rem 7rem;
+    border-radius: 10px;
 }
 
 .judge > li > span {
-    background-color: #393E46;
     height: calc(100% - 1rem);
     padding: 0.5rem 0;
     top: 0;
+    border-radius: 10px;
 }
 
 
@@ -552,4 +640,41 @@ i {
 
 ::-webkit-scrollbar {
     width: 0 !important
+}
+
+.deleteFixed {
+  position: relative;
+  transform: translateX(0);
+  left: 0;
+  top: 0;
+  text-align: left;
+}
+
+.operateBtn {
+  padding: 0.5rem 1.5rem;
+  border: 1px #EEEEEE solid;
+  border-radius: 0.2rem;
+  background-color:#393E46;
+  font-size: 1.6rem;
+  white-space: nowrap;
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+  z-index:2;
+  color: #EEEEEE;
+}
+
+.operateBtn:hover {
+  background: #ff7878;
+  color: #fff;
+  transition: all .4s ease 0s;
+}
+
+.domToImage2wx {
+  position: fixed;
+  z-index: 1111;
+  width: 100%;
+}
+
+.domToImage2wx img {
+  width: 100%;
 }
