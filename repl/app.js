@@ -1,9 +1,26 @@
-import { max, sum } from '../src/functions/util.js';
 import { summary } from '../src/functions/summary.js'
 import { readFile } from 'fs/promises';
 import Life from '../src/life.js';
 
-global.json = async fileName => JSON.parse(await readFile(`data/${fileName}.json`));
+globalThis.json = async fileName => JSON.parse(await readFile(`data/${fileName}.json`));
+
+globalThis.$$eventMap = new Map();
+globalThis.$$event = (tag, data) => {
+    const listener = $$eventMap.get(tag);
+    if(listener) listener.forEach(fn=>fn(data));
+}
+globalThis.$$on = (tag, fn) => {
+    let listener = $$eventMap.get(tag);
+    if(!listener) {
+        listener = new Set();
+        $$eventMap.set(tag, listener);
+    }
+    listener.add(fn);
+}
+globalThis.$$off = (tag, fn) => {
+    const listener = $$eventMap.get(tag);
+    if(listener) listener.delete(fn);
+}
 
 class App {
     constructor() {
@@ -33,9 +50,9 @@ class App {
         grade1: ['\x1B[94m', '\x1B[39m'], // Bright Blue
         grade2: ['\x1B[95m', '\x1B[39m'], // Bright Magenta
         grade3: ['\x1B[93m', '\x1B[39m'], // Bright Yellow
-        grade1b: ['\x1B[104m', '\x1B[49m'], // Bright Blue BG
-        grade2b: ['\x1B[105m', '\x1B[49m'], // Bright Magenta BG
-        grade3b: ['\x1B[103m', '\x1B[49m'], // Bright Yellow BG
+        grade1b: ['\x1B[94m\x1B[7m', '\x1B[0m'], // Bright Blue BG
+        grade2b: ['\x1B[95m\x1B[7m', '\x1B[0m'], // Bright Magenta BG
+        grade3b: ['\x1B[93m\x1B[7m', '\x1B[0m'], // Bright Yellow BG
     };
     #randomTalents;
 
@@ -47,14 +64,21 @@ class App {
 
     async initial() {
         this.output('Now Loading...');
-        this.#talentExtend = global.localStorage.talentExtend;
+        this.#talentExtend = localStorage.talentExtend;
         await this.#life.initial();
         this.output(`\rLoading Complete.
 人生重开模拟器
 这垃圾人生一秒也不想待了
-\n🎉键入 \x1B[4m/remake\x1B[24m 开始游戏`,
+
+键入 \x1B[4m/remake\x1B[24m 开始游戏
+键入 \x1B[4m/help\x1B[24m 获取帮助`,
             true
         );
+        $$on('achievement', ({name})=>this.output(`
+-------------------------
+    解锁成就【${name}】
+-------------------------
+`))
     }
 
     io(input, output, exit) {
@@ -99,13 +123,18 @@ class App {
 
             case 'n':
             case 'next':
-            case '/next': return this.next(true);
+            case '/next':
+            case '': return this.next(true);
 
             case 'a':
             case 'alloc':
-            case 'allocation':
+            case 'allocate':
+            case 'attrib':
+            case 'attribute':
             case '/alloc':
-            case '/allocation': return this.alloc(...command);
+            case '/allocate':
+            case '/attrib':
+            case '/attribute': return this.attrib(...command);
 
             case 'rd':
             case 'random':
@@ -175,17 +204,25 @@ class App {
 
             case 'a':
             case 'alloc':
-            case 'allocation':
+            case 'allocate':
+            case 'attrib':
+            case 'attribute':
             case '/alloc':
-            case '/allocation': return `分配属性点
-    a, alloc, allocation
-    /alloc, /allocation 命令同等效果
+            case '/allocate':
+            case '/attrib':
+            case '/attribute': return `分配或查看属性点
+    a, alloc, allocate, attrib, attribute
+    /alloc, /allocate, /attrib, /attribute 命令同等效果
 
-    Example:    /allocation STR 1
-                /allocation INT -3
-                /allocation CHR +5
+    Example:    /attribute
+                /allocate STR 1
+                /allocate INT -3
+                /allocate CHR +5
 
-    参数解释    /allocation <TAG> <[+/-]value>
+    效果        在属性分配时分配属性点
+                在人生的过程中查看当前属性点
+
+    参数解释    /allocate <TAG> <[+/-]value>
 
                 <TAG>   表示要分配的属性标签
                         可选有
@@ -261,9 +298,13 @@ class App {
 
     a
     alloc
-    allocation
+    allocate
+    attrib
+    attribute
     /alloc
-    /allocation     分配属性点      /allocation <TAG> <[+/-]value>
+    /allocate
+    /attrib
+    /attribute      分配或查看属性点 /allocate <TAG> <[+/-]value>
 
     n
     next
@@ -289,7 +330,7 @@ class App {
     remake() {
         if(this.#talentExtend) {
             this.#life.talentExtend(this.#talentExtend)
-            global.dumpLocalStorage();
+            dumpLocalStorage();
             this.#talentExtend = null;
         }
 
@@ -322,7 +363,7 @@ class App {
             if(!s) return warn(`${number} 为未知天赋`);
             if(this.#talentSelected.has(s)) continue;
             if(this.#talentSelected.size == 3)
-                return warn('⚠只能选3个天赋');
+                return warn('你只能选3个天赋。请使用 \x1B[4m/unselect\x1B[24m 取消选择你不想要的天赋');
 
             const exclusive = this.#life.exclusive(
                 Array.from(this.#talentSelected).map(({id})=>id),
@@ -367,12 +408,12 @@ class App {
         let description, list, check;
         switch(this.#step) {
             case this.Steps.TALENT:
-                description = '🎉 请选择3个天赋';
+                description = '🎉 请选择（\x1B[4m/select\x1B[24m）3 个天赋';
                 list = this.#randomTalents;
                 check = talent=>this.#talentSelected.has(talent);
                 break;
             case this.Steps.SUMMARY:
-                description = '🎉 你可以选一个天赋继承';
+                description = '🎉 你可以选（\x1B[4m/select\x1B[24m）一个天赋继承';
                 list = Array.from(this.#talentSelected);
                 check = ({id})=>this.#talentExtend == id;
                 break;
@@ -394,7 +435,7 @@ class App {
         const warn = (a, b) => `${a}\n${this.style('warn', this.style('warn', b))}`;
         switch(this.#step) {
             case this.Steps.TALENT:
-                if(this.#talentSelected.size != 3) return warn(this.list(), `⚠请选择3个天赋`);
+                if(this.#talentSelected.size != 3) return warn(this.list(), `请选择 3 个天赋`);
                 this.#step = this.Steps.PROPERTY;
                 this.#propertyAllocation.total = 20 + this.#life.getTalentAllocationAddition(
                     Array.from(this.#talentSelected).map(({id})=>id)
@@ -403,7 +444,7 @@ class App {
                 return this.prop();
             case this.Steps.PROPERTY:
                 const less = this.less();
-                if(less > 0) return warn(this.prop(), `你还有${less}属性点没有分配完`);
+                if(less > 0) return warn(this.prop(), `你还有 ${less} 属性点没有分配完`);
                 this.#step = this.Steps.TRAJECTORY;
                 delete this.#propertyAllocation.total;
                 this.#life.restart(this.#propertyAllocation);
@@ -462,7 +503,8 @@ class App {
 
     prop() {
         const { CHR, INT, STR, MNY } = this.#propertyAllocation;
-        return `🎉属性分配
+        return `🎉 属性分配
+请使用 \x1B[4m/alloc\x1B[24m <TAG> <value> 分配属性
 剩余点数 ${this.less()}
 
 属性(TAG)       当前值
@@ -476,6 +518,31 @@ class App {
     less() {
         const { total, CHR, INT, STR, MNY } = this.#propertyAllocation;
         return total - CHR - INT - STR - MNY;
+    }
+
+    attrib(tag, value) {
+        switch (this.#step) {
+            case this.Steps.PROPERTY:
+                return this.alloc(tag, value);
+
+            case this.Steps.TRAJECTORY:
+                return this.showProperty();
+        
+            default:
+                return undefined;
+        }
+    }
+
+    showProperty() {
+        let property = this.#life.getLastRecord();
+        return `当前属性
+
+属性(TAG)       当前值
+颜值(CHR)         ${property.CHR}
+智力(INT)         ${property.INT}
+体质(STR)         ${property.STR}
+家境(MNY)         ${property.MNY}
+快乐(SPR)         ${property.SPR}`
     }
 
     alloc(tag, value) {
@@ -549,34 +616,22 @@ class App {
     }
 
     summary() {
-
-        const records = this.#life.getRecord();
-        const s = (type, func)=>{
-            const value = func(records.map(({[type]:v})=>v));
+        const summaryData = this.#life.getSummary();
+        const format = (name, type) => {
+            const value = summaryData[type];
             const { judge, grade } = summary(type, value);
-            return { judge, grade, value };
-        };
-
-        const style = (name, grade, judge, value) => this.style(`grade${grade}b`, `${name}：${value} ${judge}`);
-        const judge = (name, type, func) => {
-            const { judge, grade, value } = s(type, func);
-            return style(name, grade, judge, value );
+            return this.style(`grade${grade}b`, `${name}：${value} ${judge}`);
         }
 
         return [
             '🎉 总评',
-            judge('颜值', 'CHR', max),
-            judge('智力', 'INT', max),
-            judge('体质', 'STR', max),
-            judge('家境', 'MNY', max),
-            judge('快乐', 'SPR', max),
-            judge('享年', 'AGE', max),
-            (()=>{
-                const m = type=>max(records.map(({[type]: value})=>value));
-                const value = Math.floor(sum(m('CHR'), m('INT'), m('STR'), m('MNY'), m('SPR'))*2 + m('AGE')/2);
-                const { judge, grade } = summary('SUM', value);
-                return style('总评', grade, judge, value );
-            })(),
+            format('颜值', 'CHR'),
+            format('智力', 'INT'),
+            format('体质', 'STR'),
+            format('家境', 'MNY'),
+            format('快乐', 'SPR'),
+            format('享年', 'AGE'),
+            format('总评', 'SUM'),
         ].join('\n');
     }
 }
